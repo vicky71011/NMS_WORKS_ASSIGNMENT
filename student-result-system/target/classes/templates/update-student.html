@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Student Result</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="header">
+        <h1>🎓 Student Result Management System</h1>
+    </div>
+
+    <div class="form-container">
+        <h2>✏️ Update Student Result</h2>
+
+        <form th:action="@{/update/{id}(id=${student.id})}"
+              th:object="${student}"
+              method="post">
+
+            <div class="form-group">
+                <label>Student Name *</label>
+                <input type="text" th:field="*{studentName}" class="form-input">
+                <span th:if="${#fields.hasErrors('studentName')}"
+                      th:errors="*{studentName}" class="error-msg"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Roll Number *</label>
+                <input type="text" th:field="*{rollNumber}" class="form-input">
+                <span th:if="${#fields.hasErrors('rollNumber')}"
+                      th:errors="*{rollNumber}" class="error-msg"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Department *</label>
+                <select th:field="*{department}" class="form-input">
+                    <option value="">-- Select Department --</option>
+                    <option value="CSE">Computer Science (CSE)</option>
+                    <option value="IT">Information Technology (IT)</option>
+                    <option value="ECE">Electronics (ECE)</option>
+                    <option value="MECH">Mechanical (MECH)</option>
+                    <option value="CIVIL">Civil Engineering</option>
+                </select>
+                <span th:if="${#fields.hasErrors('department')}"
+                      th:errors="*{department}" class="error-msg"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Subject *</label>
+                <input type="text" th:field="*{subject}" class="form-input">
+                <span th:if="${#fields.hasErrors('subject')}"
+                      th:errors="*{subject}" class="error-msg"></span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group half">
+                    <label>Marks Obtained * (0–100)</label>
+                    <input type="number" th:field="*{marksObtained}"
+                           min="0" max="100" class="form-input">
+                    <span th:if="${#fields.hasErrors('marksObtained')}"
+                          th:errors="*{marksObtained}" class="error-msg"></span>
+                </div>
+                <div class="form-group half">
+                    <label>Total Marks</label>
+                    <input type="number" th:field="*{totalMarks}"
+                           min="1" class="form-input">
+                </div>
+            </div>
+
+            <div class="current-result-box">
+                <strong>Current Result:</strong>
+                <span th:text="${student.percentage + '%'}"></span> —
+                Grade: <span th:text="${student.grade}"></span> —
+                <span th:text="${student.result}"></span>
+                <br><small>These will be recalculated on update.</small>
+            </div>
+
+            <div class="btn-row">
+                <button type="submit" class="btn btn-orange">🔄 Update Result</button>
+                <a th:href="@{/}"><button type="button" class="btn btn-gray">Cancel</button></a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

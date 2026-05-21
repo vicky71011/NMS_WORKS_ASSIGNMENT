@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result Management System</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="header">
+        <h1>🎓 Student Result Management System</h1>
+        <p>Spring Boot | JPA | REST API | Thymeleaf | MVC</p>
+    </div>
+
+    <div class="toolbar">
+        <a th:href="@{/}"><button class="btn btn-blue">All Students</button></a>
+        <a th:href="@{/toppers}"><button class="btn btn-gold">⭐ Top Performers</button></a>
+        <a th:href="@{/department(name='CSE')}"><button class="btn btn-gray">CSE</button></a>
+        <a th:href="@{/department(name='IT')}"><button class="btn btn-gray">IT</button></a>
+        <a th:href="@{/department(name='ECE')}"><button class="btn btn-gray">ECE</button></a>
+        <a th:href="@{/add}"><button class="btn btn-green">+ Add Student Result</button></a>
+    </div>
+
+    <div th:if="${filterTitle}" class="filter-banner">
+        <strong th:text="${filterTitle}"></strong>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Roll No</th>
+                <th>Student Name</th>
+                <th>Department</th>
+                <th>Subject</th>
+                <th>Marks</th>
+                <th>Percentage</th>
+                <th>Grade</th>
+                <th>Result</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="student : ${students}">
+                <td th:text="${student.id}"></td>
+                <td th:text="${student.rollNumber}"></td>
+                <td th:text="${student.studentName}"></td>
+                <td th:text="${student.department}"></td>
+                <td th:text="${student.subject}"></td>
+                <td>
+                    <span th:text="${student.marksObtained}"></span> /
+                    <span th:text="${student.totalMarks}"></span>
+                </td>
+                <td th:text="${student.percentage + '%'}"></td>
+                <td>
+                        <span th:text="${student.grade}"
+                              th:classappend="${student.grade == 'A+' or student.grade == 'A'} ? 'badge-green' :
+                                             (${student.grade == 'B' or student.grade == 'C'} ? 'badge-blue' :
+                                             (${student.grade == 'D'} ? 'badge-orange' : 'badge-red'))"
+                              class="badge">
+                        </span>
+                </td>
+                <td>
+                        <span th:text="${student.result}"
+                              th:classappend="${student.result == 'Pass'} ? 'badge-green' : 'badge-red'"
+                              class="badge">
+                        </span>
+                </td>
+                <td class="action-cell">
+                    <a th:href="@{/edit/{id}(id=${student.id})}">
+                        <button class="btn btn-sm btn-edit">✏️ Edit</button>
+                    </a>
+                    <a th:href="@{/delete/{id}(id=${student.id})}"
+                       onclick="return confirm('Delete this record?')">
+                        <button class="btn btn-sm btn-delete">🗑️ Delete</button>
+                    </a>
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(students)}">
+                <td colspan="10" class="empty-row">No student records found. Add one!</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+<!--    <div class="api-box">-->
+<!--        <h3>📡 REST API Endpoints (test with Postman)</h3>-->
+<!--        <div class="api-grid">-->
+<!--            <div class="api-item get">GET /api/students — All students</div>-->
+<!--            <div class="api-item get">GET /api/students/{id} — By ID</div>-->
+<!--            <div class="api-item get">GET /api/students/department/{dept} — By dept</div>-->
+<!--            <div class="api-item get">GET /api/students/result/{Pass|Fail}</div>-->
+<!--            <div class="api-item get">GET /api/students/toppers</div>-->
+<!--            <div class="api-item get">GET /api/students/search?name=...</div>-->
+<!--            <div class="api-item post">POST /api/students — Add student (JSON body)</div>-->
+<!--            <div class="api-item put">PUT /api/students/{id} — Update (JSON body)</div>-->
+<!--            <div class="api-item delete">DELETE /api/students/{id} — Delete</div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+</div>
+</body>
+</html>

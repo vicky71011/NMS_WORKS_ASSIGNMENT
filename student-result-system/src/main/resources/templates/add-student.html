@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Student Result</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="header">
+        <h1>🎓 Student Result Management System</h1>
+    </div>
+
+    <div class="form-container">
+        <h2>➕ Add Student Result</h2>
+
+        <form th:action="@{/save}" th:object="${student}" method="post">
+            <div class="form-group">
+                <label>Student Name *</label>
+                <input type="text" th:field="*{studentName}"
+                       placeholder="e.g. Pavithra K R" class="form-input">
+                <span th:if="${#fields.hasErrors('studentName')}"
+                      th:errors="*{studentName}"
+                      class="error-msg">
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label>Roll Number *</label>
+                <input type="text" th:field="*{rollNumber}"
+                       placeholder="e.g. CS2024001" class="form-input">
+                <span th:if="${#fields.hasErrors('rollNumber')}"
+                      th:errors="*{rollNumber}" class="error-msg"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Department *</label>
+                <select th:field="*{department}" class="form-input">
+                    <option value="">-- Select Department --</option>
+                    <option value="CSE">Computer Science (CSE)</option>
+                    <option value="IT">Information Technology (IT)</option>
+                    <option value="ECE">Electronics (ECE)</option>
+                    <option value="MECH">Mechanical (MECH)</option>
+                    <option value="CIVIL">Civil Engineering</option>
+                </select>
+                <span th:if="${#fields.hasErrors('department')}"
+                      th:errors="*{department}" class="error-msg"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Subject *</label>
+                <input type="text" th:field="*{subject}"
+                       placeholder="e.g. Java Programming" class="form-input">
+                <span th:if="${#fields.hasErrors('subject')}"
+                      th:errors="*{subject}" class="error-msg"></span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group half">
+                    <label>Marks Obtained * (0–100)</label>
+                    <input type="number" th:field="*{marksObtained}"
+                           min="0" max="100" placeholder="e.g. 85" class="form-input">
+                    <span th:if="${#fields.hasErrors('marksObtained')}"
+                          th:errors="*{marksObtained}" class="error-msg"></span>
+                </div>
+
+                <div class="form-group half">
+                    <label>Total Marks</label>
+                    <input type="number" th:field="*{totalMarks}"
+                           value="100" min="1" class="form-input">
+                </div>
+            </div>
+
+            <div class="info-box">
+                ℹ️ Percentage, Grade and Result will be calculated automatically on save.
+            </div>
+
+            <div class="btn-row">
+                <button type="submit" class="btn btn-green">💾 Save Result</button>
+                <a th:href="@{/}"><button type="button" class="btn btn-gray">Cancel</button></a>
+            </div>
+        </form>
+    </div>
+
+    <div class="grade-ref">
+        <strong>Grade Reference:</strong>
+        <span class="badge badge-green">A+ ≥ 90%</span>
+        <span class="badge badge-green">A ≥ 80%</span>
+        <span class="badge badge-blue">B ≥ 70%</span>
+        <span class="badge badge-blue">C ≥ 60%</span>
+        <span class="badge badge-orange">D ≥ 40%</span>
+        <span class="badge badge-red">F &lt; 40%</span>
+    </div>
+</div>
+</body>
+</html>
